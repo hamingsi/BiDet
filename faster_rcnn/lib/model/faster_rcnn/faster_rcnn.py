@@ -78,6 +78,7 @@ class _fasterRCNN_BiDet(nn.Module):
                     score_sum = score.sum().detach().cpu().item()
                     score = score / score_sum
                     log_score = score * torch.log(score + 1e-6)  # p * log(p)
+                    # 这个应该是J2吧
                     rpn_prior_loss += (-1. * log_score.sum() / float(gt_num))
 
                 rpn_prior_loss /= batch_size
