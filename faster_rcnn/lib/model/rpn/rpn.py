@@ -165,6 +165,7 @@ class _RPN_BiDet(nn.Module):
 
         reg_loss = torch.FloatTensor([0.]).cuda()
         if self.reg_weight != 0.:
+            # 这个是做信息瓶颈的loss吗
             reg_loss = (rpn_conv1 ** 2).mean() * self.reg_weight
 
         # get rpn classification score
@@ -178,6 +179,7 @@ class _RPN_BiDet(nn.Module):
         rpn_bbox_pred = self.RPN_bbox_pred(rpn_conv1)
 
         # sample loc data
+        # 下面这部分应该是取样
         bbox_deltas = rpn_bbox_pred.permute(0, 2, 3, 1).contiguous()
         ori_shape = bbox_deltas.shape
         bbox_deltas = bbox_deltas.view(batch_size, -1, 8)
